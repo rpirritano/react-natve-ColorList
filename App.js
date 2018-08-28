@@ -10,6 +10,11 @@ export default class App extends Component<Props> {
     this.state = {
       backgroundColor: 'blue'
     }
+    this.changeColor = this.changeColor.bind(this)
+  }
+
+  changeColor(backgroundColor) {
+    this.setState({backgroundColor})
   }
 
   render() {
@@ -17,8 +22,10 @@ export default class App extends Component<Props> {
     const { backgroundColor } = this.state
     return (
       <View style={[styles.container, {backgroundColor}]}>
-        <Text style={styles.button}>Green</Text>
-        <Text style={styles.button}>Blue</Text>
+        <Text style={styles.button}
+          onPress={() => this.changeColor('green')} >green</Text>
+        <Text style={styles.button}
+          onPress={() => this.changeColor('red')}>red</Text>
 
       </View>
     );
