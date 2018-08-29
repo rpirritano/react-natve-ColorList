@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Platform, StyleSheet, ListView} from 'react-native'
+import {Platform, StyleSheet, ListView, AsyncStorage} from 'react-native'
 
 import ColorButton from './components/ColorButton'
 import ColorForm from './components/ColorForm'
@@ -14,11 +14,7 @@ constructor() {
   this.ds = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2
   })
-  const availableColors = [
-    'red',
-    'green',
-    'yellow'
-  ]
+  const availableColors = []
   this.state = {
     backgroundColor: 'blue',
     availableColors,
@@ -26,6 +22,31 @@ constructor() {
   }
   this.changeColor = this.changeColor.bind(this)
   this.newColor = this.newColor.bind(this)
+}
+//use componentDidMount to grap our data
+componentDidMount() {
+  AsyncStorage.getItem(
+    '@ColorListStore:Colors',
+    (err, data) => {
+      if (err) {
+        console.error('Error loading colors', err)
+      } else {
+        const availableColors = JSON.parse(data)
+        this.setState({
+          availableColors,
+          dataSource: this.ds.cloneWithRows(availableColors)
+        })
+      }
+    }
+  )
+}
+
+//AsyncStorage will interact with the device api to save the data to the phone
+saveColors(colors) {
+  AsyncStorage.setItem(
+    '@ColorListStore:Colors',
+    JSON.stringify(colors)
+  )
 }
 
 changeColor(backgroundColor) {
@@ -41,6 +62,7 @@ newColor(color) {
     availableColors,
     dataSource: this.ds.cloneWithRows(availableColors)
   })
+  this.saveColors(availableColors)
 }
 
 render() {
