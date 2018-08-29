@@ -1,22 +1,27 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight
+} from 'react-native'
 
 //use props to set color
 //pass the value of the color to the parent component
 //set default onSelect so if user does not select, f is just a placeholder
+
 const ColorButton = ({ backgroundColor, onSelect=f=>f }) => (
   <TouchableHighlight style={styles.button}
     onPress={() => onSelect(backgroundColor)}
     underlayColor="orange">
 
-  <View style={styles.row}>
-    <View style={[styles.sample,{ backgroundColor }]} />
-    <Text style={styles.text}>{backgroundColor}</Text>
-  </View>
+    <View style={styles.row}>
+      <View style={[styles.sample,{backgroundColor}]} />
+      <Text style={styles.text}>{backgroundColor}</Text>
+    </View>
 
   </TouchableHighlight>
 )
-
 
 const styles = StyleSheet.create({
   button: {
@@ -42,6 +47,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     margin: 5
   }
-});
+})
 
-export const ColorButton
+export default ColorButton
