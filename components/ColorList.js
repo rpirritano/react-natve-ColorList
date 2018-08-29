@@ -8,6 +8,12 @@ import ColorForm from './ColorForm'
 export default class ColorList extends Component{
 //make the color be passed in state so user can change it
 //ListView needs a data source to be able to render
+
+static navigationOptions = {
+  title: 'Available Colors'
+}
+
+
 constructor() {
   super()
 
@@ -60,13 +66,14 @@ newColor(color) {
 }
 
 render() {
+  const { navigate } = this.props.navigation
   const { backgroundColor, dataSource } = this.state
   return (
     <ListView style={[styles.container,{backgroundColor}]}
       dataSource={dataSource}
       renderRow={(color) => (
         <ColorButton backgroundColor={color}
-          onSelect={this.props.onColorSelected}/>
+          onSelect={() => navigate('Details', {color})}/>
       )}
       renderHeader={() => (
         <ColorForm onNewColor={this.newColor}/>
