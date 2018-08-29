@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, ListView} from 'react-native';
+import React, {Component} from 'react'
+import {Platform, StyleSheet, ListView} from 'react-native'
 
 import ColorButton from './components/ColorButton'
+import ColorForm from './components/ColorForm'
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -16,18 +17,7 @@ constructor() {
   const availableColors = [
     'red',
     'green',
-    'yellow',
-    'salmon',
-    'pink',
-    '#0000FF',
-    'rgba(255,0,255,.9)',
-    'purple',
-    'orange',
-    'gold',
-    'salmon',
-    'pink',
-    '#0000FF',
-    'rgba(255,0,255,.9)'
+    'yellow'
   ]
   this.state = {
     backgroundColor: 'blue',
@@ -35,10 +25,22 @@ constructor() {
     dataSource: this.ds.cloneWithRows(availableColors)
   }
   this.changeColor = this.changeColor.bind(this)
+  this.newColor = this.newColor.bind(this)
 }
 
 changeColor(backgroundColor) {
   this.setState({backgroundColor})
+}
+
+newColor(color) {
+  const availableColors = [
+    ...this.state.availableColors,
+    color
+  ]
+  this.setState({
+    availableColors,
+    dataSource: this.ds.cloneWithRows(availableColors)
+  })
 }
 
 render() {
@@ -51,7 +53,7 @@ render() {
           onSelect={this.changeColor}/>
       )}
       renderHeader={() => (
-        <Text style={styles.header}>Color List</Text>
+        <ColorForm onNewColor={this.newColor}/>
       )}>
 
     </ListView>
@@ -60,14 +62,14 @@ render() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  header: {
-    backgroundColor: 'lightgrey',
-    padding: 10,
-    paddingTop: 20,
-    fontSize: 30,
-    textAlign: 'center'
-  }
+container: {
+  flex: 1
+},
+header: {
+  backgroundColor: 'lightgrey',
+  padding: 10,
+  paddingTop: 20,
+  fontSize: 30,
+  textAlign: 'center'
+}
 })
