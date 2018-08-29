@@ -7,7 +7,16 @@ const ColorInfo = ({ navigation }) => {
   const color = ColorTools(navigation.state.params.color)
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      <Text style={styles.text}>To Do: Display Details</Text>
+      <Text style={[styles.text, { color: color.negate()}]}>
+        {color.hex()}
+      </Text>
+      <Text style={[styles.text, { color: color.negate()}]}>
+        {color.rgb().string()}
+      </Text>
+      <Text style={[styles.text, { color: color.negate()}]}>
+        {color.hsl().string()}
+      </Text>
+
     </View>
   )
 }
